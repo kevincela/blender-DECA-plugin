@@ -31,8 +31,8 @@ def main(args):
     os.makedirs(savefolder, exist_ok=True)
 
     # load test images 
-    testdata = datasets.TestData(args.image_path, iscrop=args.iscrop, face_detector=args.detector)
-    expdata = datasets.TestData(args.exp_path, iscrop=args.iscrop, face_detector=args.detector)
+    testdata = datasets.TestData(args.image_path, device=device, iscrop=args.iscrop, face_detector=args.detector)
+    expdata = datasets.TestData(args.exp_path, device=device, iscrop=args.iscrop, face_detector=args.detector)
 
     # run DECA
     deca_cfg.model.use_tex = args.useTex

@@ -44,7 +44,7 @@ def video2sequence(video_path):
     return imagepath_list
 
 class TestData(Dataset):
-    def __init__(self, testpath, iscrop=True, crop_size=224, scale=1.25, face_detector='mtcnn'):
+    def __init__(self, testpath, device="cuda", iscrop=True, crop_size=224, scale=1.25, face_detector='mtcnn'):
         '''
             testpath: folder, imagepath_list, image path, video path
         '''
@@ -66,7 +66,7 @@ class TestData(Dataset):
         self.iscrop = iscrop
         self.resolution_inp = crop_size
         if face_detector == 'fan':
-            self.face_detector = detectors.FAN()
+            self.face_detector = detectors.FAN(device)
         # elif face_detector == 'mtcnn':
         #     self.face_detector = detectors.MTCNN()
         else:

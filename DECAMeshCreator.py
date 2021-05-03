@@ -21,7 +21,7 @@ class DECAMeshCreator(bpy.types.Operator):
         deca_cfg.model.use_tex = False
         deca = DECA(config = deca_cfg, device=device)
 
-        imagedata = datasets.TestData(self.filepath, iscrop=True, face_detector='fan')
+        imagedata = datasets.TestData(self.filepath, device=device, iscrop=True, face_detector='fan')
         name = imagedata[0]['imagename']
         images = imagedata[0]['image'].to(device)[None,...]
         codedict = deca.encode(images)
