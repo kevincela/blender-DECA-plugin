@@ -2,6 +2,7 @@ import bpy
 import torch
 import sys
 import os
+from math import radians
 from .decalib.deca import DECA
 from .decalib.datasets import datasets
 from .decalib.utils import util
@@ -11,7 +12,7 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 class DECAMeshCreator(bpy.types.Operator):
     bl_idname = "mesh.add_object_deca"
-    bl_label = "Add image to generate a face mesh with DECA"
+    bl_label = "Add mesh from image"
 
     filepath: bpy.props.StringProperty(subtype="FILE_PATH")
 
@@ -37,6 +38,7 @@ class DECAMeshCreator(bpy.types.Operator):
         dense_vertices_arr = dense_vertices.tolist()
         detail_faces_arr = detail_faces.tolist()
         mesh.from_pydata(dense_vertices_arr, [], detail_faces_arr)
+        obj.rotation_euler = (radians(90), 0, 0)
 
         return {"FINISHED"}
 

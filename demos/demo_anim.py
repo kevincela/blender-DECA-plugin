@@ -33,7 +33,6 @@ def main(args):
     deca = DECA(config = deca_cfg, device=device)
     opdict_list = []
     visdict_list = []
-    # for i in range(len(testdata)):
     for i in tqdm(range(len(testdata))):
         name = testdata[i]['imagename']
         images = testdata[i]['image'].to(device)[None,...]

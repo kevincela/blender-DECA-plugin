@@ -12,20 +12,21 @@ bl_info = {
     "category": "Generic"
 }
 
-from .DECAMeshCreator import DECAMeshCreator, menu_func
-# sys.path.append('/home/kevincela/.local/lib/python3.9/site-packages')
-# sys.path.append('/usr/local/lib/python3.9/site-packages')
-# VEDERE FLAG --python-use-system-env
+from .DECAMeshCreator import DECAMeshCreator
+from .DECAAnimCreator import DECAAnimCreator
+from .DECAPluginPanel import DecaPluginPanel
 
 
 def register():
     bpy.utils.register_class(DECAMeshCreator)
-    bpy.types.VIEW3D_MT_mesh_add.append(menu_func)
+    bpy.utils.register_class(DECAAnimCreator)
+    bpy.utils.register_class(DecaPluginPanel)
 
 
 def unregister():
     bpy.utils.unregister_class(DECAMeshCreator)
-    bpy.types.VIEW3D_MT_mesh_add.append(menu_func)
+    bpy.utils.unregister_class(DECAAnimCreator)
+    bpy.utils.unregister_class(DecaPluginPanel)
 
 
 if __name__ == "__main__":
