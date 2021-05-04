@@ -17,7 +17,12 @@ class DECAAnimCreator(bpy.types.Operator):
     directory: bpy.props.StringProperty(name="Folder", description="Folder to use for DECA", subtype="DIR_PATH")
 
     def execute(self, context):
-        device = 'cpu'
+        preferences = context.preferences
+        addon_prefs = preferences.addons[__package__].preferences
+        if addon_prefs.use_cuda:
+            device = 'cuda'
+        else:
+            device = 'cpu'
 
         deca_cfg.model.use_tex = False
         deca = DECA(config = deca_cfg, device=device)

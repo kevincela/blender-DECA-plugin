@@ -17,7 +17,12 @@ class DECAMeshCreator(bpy.types.Operator):
     filepath: bpy.props.StringProperty(subtype="FILE_PATH")
 
     def execute(self, context):
-        device = 'cpu'
+        preferences = context.preferences
+        addon_prefs = preferences.addons[__package__].preferences
+        if addon_prefs.use_cuda:
+            device = 'cuda'
+        else:
+            device = 'cpu'
 
         deca_cfg.model.use_tex = False
         deca = DECA(config = deca_cfg, device=device)
