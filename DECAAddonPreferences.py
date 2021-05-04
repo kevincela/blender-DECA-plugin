@@ -19,3 +19,4 @@ class DECAAddonPreferences(bpy.types.AddonPreferences):
         layout.label(text="Preferences for the addon")
         layout.prop(self, "frame_distance")
         layout.prop(self, "use_cuda")
+        layout.operator("deca.install_dependencies", icon="CONSOLE")

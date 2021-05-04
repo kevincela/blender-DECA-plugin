@@ -1,12 +1,7 @@
 import bpy
-import torch
 import sys
 import os
 from math import radians
-from .decalib.deca import DECA
-from .decalib.datasets import datasets
-from .decalib.utils import util
-from .decalib.utils.config import cfg as deca_cfg
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
@@ -17,6 +12,10 @@ class DECAMeshCreator(bpy.types.Operator):
     filepath: bpy.props.StringProperty(subtype="FILE_PATH")
 
     def execute(self, context):
+        from .decalib.deca import DECA
+        from .decalib.datasets import datasets
+        from .decalib.utils import util
+        from .decalib.utils.config import cfg as deca_cfg
         preferences = context.preferences
         addon_prefs = preferences.addons[__package__].preferences
         if addon_prefs.use_cuda:
