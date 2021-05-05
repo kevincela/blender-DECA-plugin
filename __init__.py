@@ -93,7 +93,6 @@ class DECA_OT_install_dependencies(bpy.types.Operator):
                 install_module(module_name=dependency.module,
                                           package_name=dependency.package,
                                           version=dependency.version)
-                import_module(module_name=dependency.module)
         except (subprocess.CalledProcessError, ImportError) as err:
             self.report({"ERROR"}, str(err))
             return {"CANCELLED"}

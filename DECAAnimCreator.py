@@ -28,6 +28,10 @@ class DECAAnimCreator(bpy.types.Operator):
 
         imagedata = datasets.TestData(self.directory, device=device, iscrop=True, face_detector='fan')
 
+        face_collection = bpy.data.collections.new("Faces")
+        context.scene.collection.children.link(face_collection)
+        objects = []
+
         for i in range(len(imagedata)):
             print("Processing image n " + str(i))
             name = imagedata[i]['imagename']
@@ -44,8 +48,7 @@ class DECAAnimCreator(bpy.types.Operator):
 
             mesh = bpy.data.meshes.new(name)
             obj = bpy.data.objects.new(mesh.name, mesh)
-            col = bpy.data.collections.get("Collection")
-            col.objects.link(obj)
+            face_collection.objects.link(obj)
             bpy.context.view_layer.objects.active = obj
 
             dense_vertices, detail_faces = deca.get_detail_mesh(opdict)
@@ -54,7 +57,51 @@ class DECAAnimCreator(bpy.types.Operator):
             mesh.from_pydata(dense_vertices_arr, [], detail_faces_arr)
             obj.rotation_euler = (radians(90), 0, 0)
 
-            ## AGGIUNGERE ANIMAZIONE
+            objects.append(obj)
+
+        print("Generating animation")
+
+        for obj in objects:
+            obj.hide_viewport = False
+            obj.hide_render = False
+
+        for i in range(len(objects)-1) :
+            context.view_layer.objects.active = objects[i]
+            bpy.ops.object.modifier_add(type='SHRINKWRAP')
+            context.object.modifiers["Shrinkwrap"].wrap_method = 'NEAREST_SURFACEPOINT'
+            context.object.modifiers["Shrinkwrap"].wrap_mode = 'OUTSIDE'
+            context.object.modifiers["Shrinkwrap"].target = objects[i+1]
+            bpy.ops.object.modifier_apply_as_shapekey(keep_modifier=False, modifier="Shrinkwrap")
+
+        countframe=0
+        for (j, obj) in enumerate(objects):
+            context.view_layer.objects.active = obj
+            
+            if j != 0: 
+                obj.hide_viewport = True
+                obj.hide_render = True
+                obj.keyframe_insert('hide_viewport', frame= -1 )
+                obj.keyframe_insert('hide_render', frame= -1 )
+
+            obj.hide_viewport = False
+            obj.hide_render = False
+            obj.keyframe_insert('hide_viewport', frame=countframe)
+            obj.keyframe_insert('hide_render', frame=countframe)
+
+            if j != (len(objects) - 1):
+                bpy.context.object.active_shape_key_index = 1
+                shrinkwrap= obj.data.shape_keys.key_blocks["Shrinkwrap"]
+                shrinkwrap.value=0
+                shrinkwrap.keyframe_insert("value", frame=countframe)
+                shrinkwrap.value=1
+                countframe = countframe + addon_prefs.frame_distance
+                shrinkwrap.keyframe_insert("value", frame=countframe)
+                obj.hide_viewport = True
+                obj.hide_render = True
+                obj.keyframe_insert('hide_viewport', frame=countframe)
+                obj.keyframe_insert('hide_render', frame=countframe)
+            else:
+                obj.keyframe_insert("location", frame=countframe)
 
         return {"FINISHED"}
 
