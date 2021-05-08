@@ -4,9 +4,11 @@ Addon di Blender che consente di utilizzare la rete DECA per importare, a partir
 
 ## Setup
 
+L'addon, che dovrà essere zippato e installato su Blender, è situato nella cartella `DECA`.
+
 ### Download modelli
 
-I modelli per l'utilizzo della rete DECA devono essere situati nella cartella `data`. Per il corretto utilizzo della rete sono necessari, rispettivamente:
+I modelli per l'utilizzo della rete DECA devono essere situati nella cartella `data`, all'interno dell'addon. Per il corretto utilizzo della rete sono necessari, rispettivamente:
 
 - Il modello della rete DECA, disponibile [nel seguente link](https://drive.google.com/file/d/1rp8kdyLPvErw2dTmqtjISRVvQLj6Yzje/view?usp=sharing). Il file così scaricato dovrà essere posizionata nella cartella `data` dell'addon.
 - Il modello della rete [FLAME](https://flame.is.tue.mpg.de/downloads). Dello zip in particolare è necessario il file `generic_model.pkl`, che dovrà essere posizionato nella cartella `data` dell'addon.
@@ -19,7 +21,11 @@ Per funzionare correttamente, l'addon necessita di diverse dipendenze relative a
 
 #### Linux (e mac?)
 
-Se si utilizza come sistema operativo Linux, l'addon contiene, tra le preferenze, un opzione che consente l'installazione di tutte le dipendenze necessarie per il corretto funzionamento. All'aggiunta dell'addon in Blender, infatti, verranno importate le librerie necessarie. Nel caso in cui l'import avviene con successo le funzionalità dell'addon possono essere utilizzate, mentre al contrario se non sono presenti delle dipendenze l'addon non sarà utilizzabile e comparirà, tra le preferenze del plugin, l'opzione per installare tutte le dipendenze necessarie, quali:
+Se si utilizza come sistema operativo Linux, l'addon contiene, tra le preferenze, un opzione che consente l'installazione di tutte le dipendenze necessarie per il corretto funzionamento, come è possibile vedere nella seguente immagine. Tale opzione è attiva solo nel caso in cui la distribuzione python non contiene le librerie richieste.
+
+![](images/preferences.png)
+
+All'aggiunta dell'addon in Blender, infatti, verranno importate le librerie necessarie. Nel caso in cui l'import avviene con successo le funzionalità dell'addon possono essere utilizzate, mentre al contrario se non sono presenti delle dipendenze l'addon non sarà utilizzabile e comparirà, tra le preferenze del plugin, l'opzione per installare tutte le dipendenze necessarie, quali:
 
 - pip, setuptools
 - pytorch (versione 1.7.1, CUDA 10.2)
@@ -66,5 +72,7 @@ Una volta installato l'addon e le dipendenze, è possibile procedere con il suo 
 L'addon in sè presenta inanzitutto due impostazioni principali, oltre all'operatore per installare le dipendenze: la prima consente di definire i frame di distanza tra una mesh e la successiva durante la generazione dell'animazione, mentre la seconda consente di scegliere tra l'utilizzo di CUDA e della CPU (a seconda dell'opzione scelta, il device usato nella rete corrisponderà a `"cuda"` oppure a `"cpu"`).
 
 Definite le preferenze, il plugin è situato come tab all'interno della sidebar di blender (che può essere attivata tramite l'uso del tasto `N`). Da qui sono presenti i due operatori che consentono, rispettivamente, di creare una mesh a partire da un'immagine e un'animazione a partire da una cartella di immagini. Entrambi gli operatori apriranno una finestra da cui si ha la possibilità di scegliere il file o la cartella contenente le immagini (che dovranno essere in formato `.jpg, .png, .bmp`). Dopo aver eseguito la scelta verrà invocata la rete, che genererà le mesh e produrrà l'output all'interno di Blender.
+
+![](images/panel.png)
 
 TODO: inserire immagini

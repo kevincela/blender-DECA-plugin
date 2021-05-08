@@ -4,11 +4,9 @@ class PluginPanel:
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
     bl_category = "DECA"
-    bl_options = {"DEFAULT_CLOSED"}
-
 
 class DecaPluginPanel(PluginPanel, bpy.types.Panel):
-    bl_idname = "DECA_plugin_panel"
+    bl_idname = "DECA_PT_plugin_panel"
     bl_label = "Add face meshes and animations with DECA"
 
     def draw(self, context):

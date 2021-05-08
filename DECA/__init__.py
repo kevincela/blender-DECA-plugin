@@ -7,10 +7,10 @@ from collections import namedtuple
 
 bl_info = {
     "name": "DECA",
-    "author": "KC, FG, MM",
-    "description": "",
-    "blender": (2, 80, 0),
-    "version": (0, 0, 1),
+    "author": "Kevin Cela, Francesco Gaudeni, Michele Marchetti",
+    "description": "Addon which makes use of DECA to reconstruct face meshes from images",
+    "blender": (2, 90, 0),
+    "version": (1, 0, 0),
     "location": "",
     "warning": "",
     "category": "Generic"
@@ -37,7 +37,6 @@ dependencies_installed = False
 
 def install_pip():
     try:
-        # Check if pip is already installed
         subprocess.run([sys.executable, "-m", "pip", "--version"], check=True)
     except subprocess.CalledProcessError:
         import ensurepip
@@ -80,7 +79,6 @@ class DECA_OT_install_dependencies(bpy.types.Operator):
 
     @classmethod
     def poll(self, context):
-        # Deactivate when dependencies have been installed
         return not dependencies_installed
 
     def execute(self, context):
@@ -100,7 +98,6 @@ class DECA_OT_install_dependencies(bpy.types.Operator):
         global dependencies_installed
         dependencies_installed = True
 
-        # Register the panels, operators, etc. since dependencies are installed
         for cls in classes:
             bpy.utils.register_class(cls)
 

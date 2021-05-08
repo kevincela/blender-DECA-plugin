@@ -8,7 +8,7 @@ from tqdm import tqdm
 import torch
 import imageio
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'DECA')))
 from decalib.deca import DECA
 from decalib.datasets import datasets 
 from decalib.utils import util
