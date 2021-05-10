@@ -18,7 +18,7 @@ class DecaPluginPanel(PluginPanel, bpy.types.Panel):
         row = box.row()
         row.operator("mesh.add_anim_deca")
         box_pref = layout.box()
-        box_pref.label(text="Preferences plugin")
+        box_pref.label(text="Plugin preferences")
         box_pref.prop(addon_prefs, "frame_distance")
         box_pref.prop(addon_prefs, "use_cuda")
         
