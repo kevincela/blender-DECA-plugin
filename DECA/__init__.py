@@ -69,7 +69,7 @@ def install_module(module_name, package_name=None, version=None):
         print(package_name)
         subprocess.run([sys.executable, "-m", "pip", "install", package_name], check=True, env=environ_copy)
 
-class DECA_OT_install_dependencies(bpy.types.Operator):
+class DECAInstallDependencies(bpy.types.Operator):
     bl_idname = "deca.install_dependencies"
     bl_label = "Install dependencies"
     bl_description = ("Downloads and installs the required python packages for this add-on. "
@@ -103,7 +103,7 @@ class DECA_OT_install_dependencies(bpy.types.Operator):
 
         return {"FINISHED"}
 
-init_classes = [DECAAddonPreferences, DECA_OT_install_dependencies]
+init_classes = [DECAAddonPreferences, DECAInstallDependencies]
 classes = [DECAAnimCreator, DECAMeshCreator, DecaPluginPanel]
 
 def register():
