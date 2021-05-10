@@ -33,7 +33,7 @@ class DECAAnimCreator(bpy.types.Operator):
         objects = []
 
         for i in range(len(imagedata)):
-            print("Processing image n " + str(i))
+            print("Processing image n " + str(i + 1))
             name = imagedata[i]['imagename']
             images = imagedata[i]['image'].to(device)[None,...]
 
@@ -90,10 +90,10 @@ class DECAAnimCreator(bpy.types.Operator):
 
             if j != (len(objects) - 1):
                 bpy.context.object.active_shape_key_index = 1
-                shrinkwrap= obj.data.shape_keys.key_blocks["Shrinkwrap"]
-                shrinkwrap.value=0
+                shrinkwrap = obj.data.shape_keys.key_blocks["Shrinkwrap"]
+                shrinkwrap.value = 0
                 shrinkwrap.keyframe_insert("value", frame=countframe)
-                shrinkwrap.value=1
+                shrinkwrap.value = 1
                 countframe = countframe + addon_prefs.frame_distance
                 shrinkwrap.keyframe_insert("value", frame=countframe)
                 obj.hide_viewport = True

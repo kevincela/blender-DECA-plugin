@@ -49,9 +49,3 @@ class DECAMeshCreator(bpy.types.Operator):
     def invoke(self, context, event):
         context.window_manager.fileselect_add(self)
         return {'RUNNING_MODAL'}
-
-def menu_func(self, context):
-    self.layout.operator(
-        DECAMeshCreator.bl_idname,
-        text="Add face mesh using DECA",
-        icon='PLUGIN')
