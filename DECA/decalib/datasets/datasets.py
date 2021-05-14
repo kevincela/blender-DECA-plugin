@@ -26,16 +26,21 @@ import scipy.io
 
 from . import detectors
 
+def check_mkdir(path):
+    if not os.path.exists(path):
+        print('creating %s' % path)
+        os.makedirs(path)
+
 def video2sequence(video_path):
     videofolder = video_path.split('.')[0]
-    util.check_mkdir(videofolder)
-    video_name = video_path.split('/')[-1].split('.')[0]
+    check_mkdir(videofolder)
+    video_name = os.path.split(video_path)[-1].split('.')[0]
     vidcap = cv2.VideoCapture(video_path)
     success,image = vidcap.read()
     count = 0
     imagepath_list = []
     while success:
-        imagepath = '{}/{}_frame{:04d}.jpg'.format(videofolder, video_name, count)
+        imagepath = os.path.join(videofolder, '{}_frame{:04d}.jpg'.format(video_name, count))
         cv2.imwrite(imagepath, image)     # save frame as JPEG file
         success,image = vidcap.read()
         count += 1
@@ -91,7 +96,7 @@ class TestData(Dataset):
 
     def __getitem__(self, index):
         imagepath = self.imagepath_list[index]
-        imagename = imagepath.split('/')[-1].split('.')[0]
+        imagename = os.path.split(imagepath)[-1].split('.')[0]
 
         image = cv2.cvtColor(cv2.imread(imagepath), cv2.COLOR_BGR2RGB)
         if len(image.shape) == 2:

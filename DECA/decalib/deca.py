@@ -266,17 +266,11 @@ class DECA(object):
                         inverse_face_order=True)
 
     def get_detail_mesh(self, opdict):
-        i = 0
-        vertices = opdict['vertices'][i].cpu().numpy()
+        vertices = opdict['vertices'][0].cpu().numpy()
         faces = self.render.faces[0].cpu().numpy()
-        texture = util.tensor2image(opdict['uv_texture_gt'][i])
-        uvcoords = self.render.raw_uvcoords[0].cpu().numpy()
-        uvfaces = self.render.uvfaces[0].cpu().numpy()
-        # save coarse mesh, with texture and normal map
-        normal_map = util.tensor2image(opdict['uv_detail_normals'][i]*0.5 + 0.5)
-        # upsample mesh, save detailed mesh
+        texture = util.tensor2image(opdict['uv_texture_gt'][0])
         texture = texture[:,:,[2,1,0]]
-        normals = opdict['normals'][i].cpu().numpy()
-        displacement_map = opdict['displacement_map'][i].cpu().numpy().squeeze()
+        normals = opdict['normals'][0].cpu().numpy()
+        displacement_map = opdict['displacement_map'][0].cpu().numpy().squeeze()
         dense_vertices, dense_colors, dense_faces = util.upsample_mesh(vertices, normals, faces, displacement_map, texture, self.dense_template)
         return dense_vertices, dense_faces
