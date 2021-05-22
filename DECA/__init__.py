@@ -87,7 +87,7 @@ def install_module(module_name, package_name=None, version=None):
             f"_pyt{torch.__version__[0:5:2]}"
         ])
         subprocess.run([sys.executable, "-m", "pip", "install", "pytorch3d", "-f", f"https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/{version_str}/download.html"], check=True, env=environ_copy)
-    if package_name == "pytorch3d" and sys.platform == "darwin":
+    elif package_name == "pytorch3d" and sys.platform == "darwin":
         install_header_files()
         subprocess.run([sys.executable, "-m", "pip", "install", "git+https://github.com/facebookresearch/pytorch3d.git"], check=True, env=environ_copy)
     else:
