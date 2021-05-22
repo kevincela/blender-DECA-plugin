@@ -136,6 +136,7 @@ classes = [DECAAnimCreator, DECAMeshCreator, DecaPluginPanel]
 def register():
     global dependencies_installed
     dependencies_installed = False
+    ssl._create_default_https_context = ssl._create_unverified_context
     
     for cl in init_classes:
         bpy.utils.register_class(cl)
