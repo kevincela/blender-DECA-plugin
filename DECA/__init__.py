@@ -5,6 +5,7 @@ import os
 import importlib
 from io import BytesIO
 import urllib.request
+import ssl
 import tarfile
 from sysconfig import get_paths
 from collections import namedtuple
@@ -34,7 +35,7 @@ dependencies = [
     Dependency(module="chumpy", package=None, version=None),
     Dependency(module="skimage", package="scikit-image", version=None),
     Dependency(module="yaml", package="PyYAML", version=None),
-    Dependency(module="cv2", package="opencv-python", version=None),
+    Dependency(module="cv2", package="opencv-python", version="4.5.1.48"),
     Dependency(module="pytorch3d", package=None, version=None),
 ]
 dependencies_installed = False
@@ -52,7 +53,7 @@ def install_header_files():
     print(py_version)
     download_url = f"https://www.python.org/ftp/python/{py_version}/Python-{py_version}.tgz"
     print("Downloading headers...")
-    with urllib.request.urlopen(download_url) as f:
+    with urllib.request.urlopen(download_url, context=ssl._create_unverified_context()) as f:
         tar_file = BytesIO(f.read())
         print("Unzipping headers...")
         with tarfile.open(fileobj=tar_file) as tar:
@@ -86,9 +87,9 @@ def install_module(module_name, package_name=None, version=None):
             f"_pyt{torch.__version__[0:5:2]}"
         ])
         subprocess.run([sys.executable, "-m", "pip", "install", "pytorch3d", "-f", f"https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/{version_str}/download.html"], check=True, env=environ_copy)
-    elif package_name == "pytorch3d" and sys.platform == "darwin":
+    if package_name == "pytorch3d" and sys.platform == "darwin":
         install_header_files()
-        subprocess.run([sys.executable, "-m", "pip", "install", '"git+https://github.com/facebookresearch/pytorch3d.git"'], check=True, env=environ_copy)
+        subprocess.run([sys.executable, "-m", "pip", "install", "git+https://github.com/facebookresearch/pytorch3d.git"], check=True, env=environ_copy)
     else:
         if version is not None:
             package_name = package_name + "==" + version
