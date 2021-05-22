@@ -3,6 +3,10 @@ import sys
 import subprocess
 import os
 import importlib
+from io import BytesIO
+import urllib.request
+import tarfile
+from sysconfig import get_paths
 from collections import namedtuple
 
 bl_info = {
@@ -35,6 +39,25 @@ dependencies = [
 ]
 dependencies_installed = False
 
+def install_header_files():
+    py_version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+
+    def members(tf):
+        l = len(f"Python-{py_version}/Include/")
+        for member in tf.getmembers():
+            if member.path.startswith(f"Python-{py_version}/Include/"):
+                member.path = member.path[l:]
+                yield member
+
+    print(py_version)
+    download_url = f"https://www.python.org/ftp/python/{py_version}/Python-{py_version}.tgz"
+    print("Downloading headers...")
+    with urllib.request.urlopen(download_url) as f:
+        tar_file = BytesIO(f.read())
+        print("Unzipping headers...")
+        with tarfile.open(fileobj=tar_file) as tar:
+            tar.extractall(path=get_paths()['include'], members=members(tar))
+
 def install_pip():
     try:
         subprocess.run([sys.executable, "-m", "pip", "--version"], check=True)
@@ -63,6 +86,9 @@ def install_module(module_name, package_name=None, version=None):
             f"_pyt{torch.__version__[0:5:2]}"
         ])
         subprocess.run([sys.executable, "-m", "pip", "install", "pytorch3d", "-f", f"https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/{version_str}/download.html"], check=True, env=environ_copy)
+    elif package_name == "pytorch3d" and sys.platform == "darwin":
+        install_header_files()
+        subprocess.run([sys.executable, "-m", "pip", "install", '"git+https://github.com/facebookresearch/pytorch3d.git"'], check=True, env=environ_copy)
     else:
         if version is not None:
             package_name = package_name + "==" + version
