@@ -15,6 +15,8 @@ I modelli preallenati per l'utilizzo della rete DECA devono essere situati nella
 
 Dopo aver scaricato i modelli, è possibile creare un zip dell'addon per il suo successivo caricamento in Blender.
 
+Un link contenente il download di entrambi i modelli è disponibile qui di seguito: https://mega.nz/file/XNER1I6S#HfUhZEBHmE_gIKJ1a2IbS-DmVCrUn2i3cHvOkZJgaH0
+
 ### Installazione addon e relative dipendenze
 
 Per funzionare correttamente, l'addon necessita di diverse dipendenze relative a python, non presenti di default nella distribuzione contenuta all'interno di Blender. Nel caso di Linux (e Mac?), l'addon offre l'opzione di installare in maniera semiautomatica tali dipendenze, mentre nel caso di Windows sarà necessaria un'installazione di natura manuale di tali dipendenze.
